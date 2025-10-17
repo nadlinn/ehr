@@ -27,10 +27,9 @@ export class EnhancedEhrIntegrationService {
     private readonly cacheService: CacheService,
     private readonly i18nService: I18nService,
   ) {
-    this.strategies = new Map([
-      [this.athenaStrategy.getEHRName(), this.athenaStrategy],
-      [this.allscriptsStrategy.getEHRName(), this.allscriptsStrategy],
-    ]);
+    this.strategies = new Map();
+    this.strategies.set(this.athenaStrategy.getEHRName(), this.athenaStrategy);
+    this.strategies.set(this.allscriptsStrategy.getEHRName(), this.allscriptsStrategy);
 
     this.logger.log(`Registered strategies: ${Array.from(this.strategies.keys()).join(', ')}`);
     this.logger.log(`Athena strategy EHR name: ${this.athenaStrategy.getEHRName()}`);
@@ -321,7 +320,7 @@ export class EnhancedEhrIntegrationService {
     await this.transactionLogRepository.update(transactionId, {
       status: 'pending',
       retryCount: transaction.retryCount + 1,
-      errorMessage: null,
+      errorMessage: undefined,
     });
   }
 }

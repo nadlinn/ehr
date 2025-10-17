@@ -15,7 +15,7 @@ export class TransactionLog {
   mappedData: any;
 
   @Column({ default: 'pending' })
-  status: 'pending' | 'success' | 'failed' | 'retrying';
+  status: 'pending' | 'mapped' | 'queued' | 'success' | 'failed' | 'retrying';
 
   @Column({ nullable: true })
   errorMessage?: string;

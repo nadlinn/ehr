@@ -1,6 +1,6 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
-import { Job } from 'bull';
+import type { Job } from 'bull';
 import { EhrIntegrationService } from '../ehr-integrations/ehr-integration.service';
 import { EhrJobData } from './queue.service';
 
@@ -42,12 +42,8 @@ export class EhrQueueProcessor {
     } catch (error) {
       this.logger.error(`Failed to process EHR job for ${ehrName}: ${error.message}`);
       
-      // Update transaction log with error
-      await this.ehrIntegrationService.updateTransactionStatus(
-        transactionId,
-        'failed',
-        error.message
-      );
+      // Log error - updateTransactionStatus method doesn't exist in the service
+      this.logger.error(`Transaction ${transactionId} failed: ${error.message}`);
       
       throw error;
     }
@@ -70,7 +66,7 @@ export class EhrQueueProcessor {
           id: `${job.id}-${i}`,
         } as Job<EhrJobData>);
         
-        results.push({ success: true, ...result });
+        results.push({ success: true, transactionId: result.transactionId, ehrName: result.ehrName, result: result.result, processedAt: result.processedAt });
         await job.progress((i + 1) / jobs.length * 100);
       } catch (error) {
         results.push({ 

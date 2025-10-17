@@ -1,7 +1,5 @@
-import { registerAs } from '@nestjs/config';
-
-export default registerAs('i18n', () => ({
+export const i18nConfig = {
   fallbackLanguage: 'en',
   supportedLanguages: ['en', 'es'],
   defaultLanguage: 'en',
-}));
+};
