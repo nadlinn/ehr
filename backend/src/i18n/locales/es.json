@@ -1,0 +1,42 @@
+{
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "email": "Por favor proporcione una dirección de correo electrónico válida",
+    "phone": "Por favor proporcione un número de teléfono válido",
+    "age": "La edad debe ser un número entre 0 y 150",
+    "firstName": "El nombre es obligatorio",
+    "lastName": "El apellido es obligatorio",
+    "contact": "La información de contacto es obligatoria"
+  },
+  "errors": {
+    "ehrNotFound": "Sistema EHR no encontrado",
+    "mappingNotFound": "Configuración de mapeo no encontrada para EHR: {{ehrName}}",
+    "patientDataInvalid": "Datos de paciente inválidos proporcionados",
+    "transactionFailed": "Transacción falló",
+    "retryExceeded": "Se excedió el número máximo de intentos de reintento"
+  },
+  "success": {
+    "dataSent": "Datos del paciente enviados exitosamente a {{ehrName}}",
+    "mappingSaved": "Configuración de mapeo EHR guardada exitosamente",
+    "transactionRetried": "Reintento de transacción iniciado"
+  },
+  "fields": {
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "age": "Edad",
+    "gender": "Género",
+    "email": "Correo Electrónico",
+    "phone": "Teléfono",
+    "address": "Dirección",
+    "allergies": "Alergias",
+    "medications": "Medicamentos",
+    "medicalHistory": "Historial Médico",
+    "symptoms": "Síntomas"
+  },
+  "ehr": {
+    "athena": "Athena",
+    "allscripts": "Allscripts",
+    "epic": "Epic",
+    "cerner": "Cerner"
+  }
+}

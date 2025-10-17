@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsNumber, IsEmail, IsOptional, ValidateNested, IsArray } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsEmail, IsOptional, ValidateNested, IsArray, Min, Max } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class PatientContactDto {
@@ -26,6 +26,8 @@ export class PatientDataDto {
 
   @IsNumber()
   @IsNotEmpty()
+  @Min(0)
+  @Max(150)
   age: number;
 
   @IsString()
@@ -76,4 +78,8 @@ export class SendPatientDataDto {
   @ValidateNested()
   @Type(() => PatientDataDto)
   patientData: PatientDataDto;
+
+  @IsString()
+  @IsOptional()
+  language?: string = 'en';
 }

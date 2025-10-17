@@ -1,0 +1,45 @@
+{
+	"validation": {
+		"required": "This field is required",
+		"email": "Please provide a valid email address",
+		"phone": "Please provide a valid phone number",
+		"age": "Age must be a number between 0 and 150",
+		"firstName": "First name is required",
+		"lastName": "Last name is required",
+		"contact": "Contact information is required"
+	},
+	"errors": {
+		"ehrNotFound": "EHR system not found",
+		"mappingNotFound": "Mapping configuration not found for EHR: {{ehrName}}",
+		"patientDataInvalid": "Invalid patient data provided",
+		"transactionFailed": "Transaction failed",
+		"retryExceeded": "Maximum retry attempts exceeded"
+	},
+	"success": {
+		"dataSent": "Patient data successfully sent to {{ehrName}}",
+		"mappingSaved": "EHR mapping configuration saved successfully",
+		"transactionRetried": "Transaction retry initiated"
+	},
+	"fields": {
+		"firstName": "First Name",
+		"lastName": "Last Name",
+		"age": "Age",
+		"gender": "Gender",
+		"email": "Email",
+		"phone": "Phone",
+		"address": "Address",
+		"allergies": "Allergies",
+		"medications": "Medications",
+		"medicalHistory": "Medical History",
+		"symptoms": "Symptoms"
+	},
+	"ehr": {
+		"athena": "Athena",
+		"allscripts": "Allscripts",
+		"epic": "Epic",
+		"cerner": "Cerner"
+	},
+	"nonexistent": {
+		"key": "nonexistent.key"
+	}
+}
