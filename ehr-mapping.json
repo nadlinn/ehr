@@ -1,0 +1,54 @@
+{
+  "Athena": {
+    "patient": {
+      "firstName": "PATIENT_FIRST_NAME",
+      "lastName": "PATIENT_LAST_NAME",
+      "name": "PATIENT_IDENT_NAME",
+      "gender": "GENDER_OF_PATIENT",
+      "age": "AGE_PATIENT",
+      "dob": "DATE_OF_BIRTH_PATIENT",
+      "address": "PATIENT_LOCATION_ADDRESS",
+      "phone": "TELEPHONE_NUMBER_PATIENT",
+      "email": "PATIENT_EMAIL_ID",
+      "emergencyContact": "EMERGENCY_CONTACT_PATIENT",
+      "insuranceProvider": "INSURANCE_PROVIDER_PATIENT",
+      "insurancePolicyNumber": "POLICY_NUMBER_INSURANCE_PATIENT",
+      "primaryCarePhysician": "PRIMARY_CARE_DOCTOR_PATIENT",
+      "allergies": "ALLERGIES_PATIENT",
+      "currentMedications": "PATIENT_MEDICATIONS_CURRENT",
+      "medicalHistory": "HISTORY_MEDICAL_PATIENT",
+      "socialHistory": "HISTORY_SOCIAL_PATIENT",
+      "familyHistory": "HISTORY_FAMILY_PATIENT",
+      "contact.email": "PATIENT_EMAIL_ID",
+      "contact.phone": "TELEPHONE_NUMBER_PATIENT",
+      "contact.address": "PATIENT_LOCATION_ADDRESS"
+    }
+  },
+  "Allscripts": {
+    "patient": {
+      "firstName": "FIRST_NAME_PAT",
+      "lastName": "LAST_NAME_PAT",
+      "p_name": "NAME_OF_PAT",
+      "p_gender": "GENDER_PAT",
+      "p_age": "AGE_PAT",
+      "p_dob": "BIRTHDATE_OF_PAT",
+      "p_address": "ADDRESS_PAT",
+      "p_phone": "PHONE_NUMBER_PAT",
+      "p_email": "EMAIL_ID_PAT",
+      "p_emergencyContact": "EMERGENCY_CONTACT_PAT",
+      "p_insuranceProvider": "PROVIDER_INSURANCE_PAT",
+      "p_insurancePolicyNumber": "POLICY_NUM_INSURANCE_PAT",
+      "p_primaryCarePhysician": "PRIMARY_CARE_DOC_PAT",
+      "p_medicalHistory": "HISTORY_MEDICAL_PAT",
+      "p_allergies": "ALLERGIES_PAT",
+      "p_currentMedications": "CURRENT_MEDS_PAT",
+      "p_socialHistory": "SOCIAL_HISTORY_PAT",
+      "p_familyHistory": "FAMILY_HISTORY_PAT",
+      "contact.email": "EMAIL_ID_PAT",
+      "contact.phone": "PHONE_NUMBER_PAT",
+      "contact.address": "ADDRESS_PAT"
+    }
+  }
+}
+    
+    

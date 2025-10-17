@@ -1,13 +1,18 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EhrMapping } from './ehr-mapping.entity';
+import { TransactionLog } from './entities/transaction-log.entity';
 import { EhrIntegrationService } from './ehr-integration.service';
-import { EhrAModule } from './ehr-a/ehr-a.module';
-import { EhrBModule } from './ehr-b/ehr-b.module';
+import { AthenaModule } from './athena/athena.module';
+import { AllscriptsModule } from './allscripts/allscripts.module';
 import { EhrController } from './ehr.controller';
 
 @Module({
-  imports: [EhrAModule, EhrBModule, TypeOrmModule.forFeature([EhrMapping])],
+  imports: [
+    AthenaModule, 
+    AllscriptsModule, 
+    TypeOrmModule.forFeature([EhrMapping, TransactionLog])
+  ],
   providers: [EhrIntegrationService],
   controllers: [EhrController],
   exports: [EhrIntegrationService],
