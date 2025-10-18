@@ -1,7 +1,7 @@
 import { Process, Processor } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import type { Job } from 'bull';
-import { EhrIntegrationService } from '../ehr-integrations/ehr-integration.service';
+import { MultiEndpointEhrService } from '../ehr-integrations/multi-endpoint-ehr.service';
 import { EhrJobData } from './queue.service';
 
 @Processor('ehr-processing')
@@ -9,7 +9,7 @@ export class EhrQueueProcessor {
   private readonly logger = new Logger(EhrQueueProcessor.name);
 
   constructor(
-    private readonly ehrIntegrationService: EhrIntegrationService,
+    private readonly multiEndpointEhrService: MultiEndpointEhrService,
   ) {}
 
   @Process('process-ehr')
@@ -22,8 +22,12 @@ export class EhrQueueProcessor {
       // Update job progress
       await job.progress(25);
       
-      // Send data to EHR system
-      const result = await this.ehrIntegrationService.sendPatientData(ehrName, patientData);
+      // Send data to EHR system using multi-endpoint service
+      const result = await this.multiEndpointEhrService.sendPatientDataToMultipleEndpoints({
+        ehrName,
+        patientData,
+        language
+      });
       
       await job.progress(75);
       

@@ -8,6 +8,7 @@ export interface EhrJobData {
   transactionId: string;
   language?: string;
   retryCount?: number;
+  multiEndpoint?: boolean;
 }
 
 @Injectable()
@@ -16,8 +17,8 @@ export class QueueService {
     @InjectQueue('ehr-processing') private ehrQueue: Queue,
   ) {}
 
-  async addEhrJob(data: EhrJobData): Promise<void> {
-    await this.ehrQueue.add('process-ehr', data, {
+  async addEhrJob(data: EhrJobData): Promise<any> {
+    const job = await this.ehrQueue.add('process-ehr', data, {
       attempts: 3,
       backoff: {
         type: 'exponential',
@@ -26,6 +27,7 @@ export class QueueService {
       removeOnComplete: 10,
       removeOnFail: 5,
     });
+    return job;
   }
 
   async addBulkEhrJobs(jobs: EhrJobData[]): Promise<void> {

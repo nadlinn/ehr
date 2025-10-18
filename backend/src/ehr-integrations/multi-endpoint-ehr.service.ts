@@ -11,7 +11,7 @@ import { validate } from 'class-validator';
 import { plainToClass } from 'class-transformer';
 import { I18nService } from '../i18n/i18n.service';
 import { CacheService } from '../cache/cache.service';
-import { QueueService } from '../queue/queue.service';
+import { PostgresQueueService } from '../queue/postgres-queue.service';
 
 export interface EndpointSubmissionResult {
   endpointName: string;
@@ -44,7 +44,7 @@ export class MultiEndpointEhrService {
     private transactionLogRepository: Repository<TransactionLog>,
     private readonly i18nService: I18nService,
     private readonly cacheService: CacheService,
-    private readonly queueService: QueueService,
+    private readonly queueService: PostgresQueueService,
   ) {
     this.strategies = new Map();
     this.strategies.set(this.athenaStrategy.getEHRName(), this.athenaStrategy);
@@ -127,7 +127,7 @@ export class MultiEndpointEhrService {
     for (const [field, ehrField] of Object.entries(endpointMapping)) {
       const value = this.getNestedFieldValue(patientData, field);
       if (value !== undefined && value !== null && value !== '') {
-        mappedData[ehrField] = value;
+        mappedData[ehrField as string] = value;
       }
     }
 
@@ -329,5 +329,12 @@ export class MultiEndpointEhrService {
     }
 
     return endpointMappings;
+  }
+
+  /**
+   * Gets queue status.
+   */
+  async getQueueStatus(): Promise<any> {
+    return this.queueService.getQueueStatus();
   }
 }

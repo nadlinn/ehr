@@ -274,6 +274,11 @@ class ApiClient {
     return response.data;
   }
 
+  async getMultiEndpointQueueStatus(): Promise<QueueStatus> {
+    const response: AxiosResponse<QueueStatus> = await this.client.get('/ehr/multi-endpoint/queue/status');
+    return response.data;
+  }
+
   // Health Check
   async healthCheck(): Promise<{ status: string; timestamp: string }> {
     const response: AxiosResponse<{ status: string; timestamp: string }> = await this.client.get('/');

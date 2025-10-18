@@ -1,7 +1,6 @@
-import { Controller, Post, Body, Get, Param, HttpCode, HttpStatus, UseInterceptors } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, HttpCode, HttpStatus } from '@nestjs/common';
 import { MultiEndpointEhrService } from './multi-endpoint-ehr.service';
 import { SendPatientDataDto } from './dto/patient-data.dto';
-import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 
 @Controller('ehr/multi-endpoint')
 export class MultiEndpointEhrController {
@@ -29,9 +28,6 @@ export class MultiEndpointEhrController {
    * Gets available endpoints for an EHR system.
    */
   @Get('endpoints/:ehrName')
-  @CacheKey('ehr_endpoints_key')
-  @CacheTTL(3600)
-  @UseInterceptors(CacheInterceptor)
   async getEhrEndpoints(@Param('ehrName') ehrName: string) {
     return this.multiEndpointEhrService.getEhrEndpoints(ehrName);
   }
@@ -40,13 +36,18 @@ export class MultiEndpointEhrController {
    * Gets field mappings for a specific endpoint.
    */
   @Get('endpoints/:ehrName/:endpointName/mappings')
-  @CacheKey('ehr_endpoint_mappings_key')
-  @CacheTTL(3600)
-  @UseInterceptors(CacheInterceptor)
   async getEndpointFieldMappings(
     @Param('ehrName') ehrName: string,
     @Param('endpointName') endpointName: string
   ) {
     return this.multiEndpointEhrService.getEndpointFieldMappings(ehrName, endpointName);
+  }
+
+  /**
+   * Gets queue status.
+   */
+  @Get('queue/status')
+  async getQueueStatus() {
+    return this.multiEndpointEhrService.getQueueStatus();
   }
 }
