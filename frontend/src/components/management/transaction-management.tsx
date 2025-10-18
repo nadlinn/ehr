@@ -32,9 +32,12 @@ export function TransactionManagement() {
         filterStatus && filterStatus !== 'all' ? filterStatus : undefined
       );
       setTransactions(transactions);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error loading transactions:', error);
-      setMessage({ type: 'error', text: t('errors.serverError') });
+      setMessage({ 
+        type: 'error', 
+        text: error.response?.data?.message || t('errors.serverError') 
+      });
     } finally {
       setLoading(false);
     }

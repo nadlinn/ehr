@@ -56,6 +56,20 @@ export interface MultiEndpointSubmissionResult {
   failedEndpoints: number;
 }
 
+export interface TransactionLog {
+  id: number;
+  ehrName: string;
+  patientData: any;
+  mappedData?: any;
+  status: 'pending' | 'mapped' | 'queued' | 'success' | 'failed' | 'retrying';
+  errorMessage?: string;
+  ehrResponse?: string;
+  retryCount: number;
+  transactionId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface SendPatientDataResponse {
   success: boolean;
   ehr: string;
@@ -276,6 +290,25 @@ class ApiClient {
 
   async getMultiEndpointQueueStatus(): Promise<QueueStatus> {
     const response: AxiosResponse<QueueStatus> = await this.client.get('/ehr/multi-endpoint/queue/status');
+    return response.data;
+  }
+
+  // Transaction Management
+  async getTransactionLogs(ehrName?: string, status?: string): Promise<TransactionLog[]> {
+    const params = new URLSearchParams();
+    if (ehrName) params.append('ehrName', ehrName);
+    if (status) params.append('status', status);
+    
+    const response: AxiosResponse<TransactionLog[]> = await this.client.get(
+      `/ehr/multi-endpoint/transactions?${params.toString()}`
+    );
+    return response.data;
+  }
+
+  async retryTransaction(transactionId: number): Promise<{ message: string }> {
+    const response: AxiosResponse<{ message: string }> = await this.client.post(
+      `/ehr/multi-endpoint/transactions/${transactionId}/retry`
+    );
     return response.data;
   }
 

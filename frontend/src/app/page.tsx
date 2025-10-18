@@ -5,20 +5,17 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { PatientDataForm } from '@/components/forms/patient-data-form';
 import { MultiEndpointPatientForm } from '@/components/forms/multi-endpoint-patient-form';
 import { EhrMappingManagement } from '@/components/management/ehr-mapping-management';
 import { TransactionManagement } from '@/components/management/transaction-management';
-import { QueueMonitoring } from '@/components/monitoring/queue-monitoring';
 import { MultiEndpointMonitoring } from '@/components/monitoring/multi-endpoint-monitoring';
 import { apiClient, SendPatientDataRequest, SendPatientDataResponse, MultiEndpointSubmissionResult } from '@/lib/api-client';
 
-type TabType = 'patient' | 'multi-endpoint' | 'mappings' | 'transactions' | 'queue' | 'multi-monitoring';
+type TabType = 'multi-endpoint' | 'mappings' | 'transactions' | 'multi-monitoring';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
-  const [activeTab, setActiveTab] = useState<TabType>('patient');
-  const [response, setResponse] = useState<SendPatientDataResponse | null>(null);
+  const [activeTab, setActiveTab] = useState<TabType>('multi-endpoint');
   const [multiEndpointResponse, setMultiEndpointResponse] = useState<MultiEndpointSubmissionResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [language, setLanguage] = useState('en');
@@ -27,26 +24,6 @@ export default function Home() {
   useEffect(() => {
     i18n.changeLanguage(language);
   }, [language, i18n]);
-
-  const handlePatientSubmit = async (request: SendPatientDataRequest) => {
-    setLoading(true);
-    setResponse(null);
-
-    try {
-      const result = await apiClient.sendPatientData(request);
-      setResponse(result);
-    } catch (error: any) {
-      console.error('Error sending patient data:', error);
-      setResponse({
-        success: false,
-        ehr: request.ehrName,
-        transactionId: '',
-        message: error.response?.data?.message || t('errors.networkError'),
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleMultiEndpointSubmit = async (result: MultiEndpointSubmissionResult) => {
     setMultiEndpointResponse(result);
@@ -70,12 +47,10 @@ export default function Home() {
   };
 
   const tabs = [
-    { id: 'patient', label: t('nav.patientData'), icon: '👤' },
-    { id: 'multi-endpoint', label: 'Multi-Endpoint', icon: '🔀' },
+    { id: 'multi-endpoint', label: t('nav.patientData'), icon: '🔀' },
     { id: 'mappings', label: t('nav.mappings'), icon: '🔧' },
     { id: 'transactions', label: t('nav.transactions'), icon: '📋' },
-    { id: 'queue', label: t('nav.queue'), icon: '⚡' },
-    { id: 'multi-monitoring', label: 'Multi-Monitor', icon: '📊' },
+    { id: 'multi-monitoring', label: t('nav.queueMonitor'), icon: '📊' },
   ] as const;
 
   return (
@@ -132,58 +107,6 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {activeTab === 'patient' && (
-          <div className="space-y-6">
-            <PatientDataForm onSubmit={handlePatientSubmit} loading={loading} />
-            
-            {response && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Response</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className={`p-4 rounded-lg ${
-                    response.success 
-                      ? 'bg-green-50 border border-green-200' 
-                      : 'bg-red-50 border border-red-200'
-                  }`}>
-                    <div className="space-y-2">
-                      <div className="flex items-center space-x-2">
-                        <span className={`font-semibold ${
-                          response.success ? 'text-green-800' : 'text-red-800'
-                        }`}>
-                          {response.success ? '✅ Success' : '❌ Error'}
-                        </span>
-                      </div>
-                      {response.message && (
-                        <p className={`text-sm ${
-                          response.success ? 'text-green-700' : 'text-red-700'
-                        }`}>
-                          {response.message}
-                        </p>
-                      )}
-                      {response.transactionId && (
-                        <p className="text-sm text-gray-600">
-                          Transaction ID: {response.transactionId}
-                        </p>
-                      )}
-                      {response.status && (
-                        <p className="text-sm text-gray-600">
-                          Status: {response.status}
-                        </p>
-                      )}
-                      {response.estimatedProcessingTime && (
-                        <p className="text-sm text-gray-600">
-                          Estimated Processing Time: {response.estimatedProcessingTime}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-        )}
 
         {activeTab === 'multi-endpoint' && (
           <div className="space-y-6">
@@ -268,7 +191,6 @@ export default function Home() {
 
         {activeTab === 'mappings' && <EhrMappingManagement />}
         {activeTab === 'transactions' && <TransactionManagement />}
-        {activeTab === 'queue' && <QueueMonitoring />}
         {activeTab === 'multi-monitoring' && <MultiEndpointMonitoring />}
       </div>
 

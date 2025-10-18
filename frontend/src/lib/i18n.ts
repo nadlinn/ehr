@@ -11,6 +11,7 @@ const en = {
       mappings: 'EHR Mappings',
       transactions: 'Transactions',
       queue: 'Queue Monitor',
+      queueMonitor: 'Queue Monitor',
       settings: 'Settings',
     },
     
@@ -199,6 +200,7 @@ const es = {
       mappings: 'Mapeos EHR',
       transactions: 'Transacciones',
       queue: 'Monitor de Cola',
+      queueMonitor: 'Monitor de Cola',
       settings: 'Configuración',
     },
     

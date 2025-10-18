@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, HttpCode, HttpStatus, Query } from '@nestjs/common';
 import { MultiEndpointEhrService } from './multi-endpoint-ehr.service';
 import { SendPatientDataDto } from './dto/patient-data.dto';
 
@@ -49,5 +49,24 @@ export class MultiEndpointEhrController {
   @Get('queue/status')
   async getQueueStatus() {
     return this.multiEndpointEhrService.getQueueStatus();
+  }
+
+  /**
+   * Gets transaction logs with optional filtering.
+   */
+  @Get('transactions')
+  async getTransactionLogs(
+    @Query('ehrName') ehrName?: string,
+    @Query('status') status?: string
+  ) {
+    return this.multiEndpointEhrService.getTransactionLogs(ehrName, status);
+  }
+
+  /**
+   * Retries a failed transaction.
+   */
+  @Post('transactions/:id/retry')
+  async retryTransaction(@Param('id') id: number) {
+    return this.multiEndpointEhrService.retryTransaction(id);
   }
 }

@@ -8,7 +8,7 @@ import { AthenaStrategy } from '../../src/ehr-integrations/athena/athena.strateg
 import { AllscriptsStrategy } from '../../src/ehr-integrations/allscripts/allscripts.strategy';
 import { I18nService } from '../../src/i18n/i18n.service';
 import { CacheService } from '../../src/cache/cache.service';
-import { QueueService } from '../../src/queue/queue.service';
+import { PostgresQueueService } from '../../src/queue/postgres-queue.service';
 import { SendPatientDataDto } from '../../src/ehr-integrations/dto/patient-data.dto';
 
 describe('MultiEndpointEhrService', () => {
@@ -19,7 +19,7 @@ describe('MultiEndpointEhrService', () => {
   let mockAllscriptsStrategy: jest.Mocked<AllscriptsStrategy>;
   let mockI18nService: jest.Mocked<I18nService>;
   let mockCacheService: jest.Mocked<CacheService>;
-  let mockQueueService: jest.Mocked<QueueService>;
+  let mockQueueService: jest.Mocked<PostgresQueueService>;
 
   const mockEhrMapping = {
     id: 1,
@@ -164,7 +164,7 @@ describe('MultiEndpointEhrService', () => {
           useValue: mockCache
         },
         {
-          provide: QueueService,
+          provide: PostgresQueueService,
           useValue: mockQueue
         }
       ]
@@ -177,7 +177,7 @@ describe('MultiEndpointEhrService', () => {
     mockAllscriptsStrategy = module.get(AllscriptsStrategy);
     mockI18nService = module.get(I18nService);
     mockCacheService = module.get(CacheService);
-    mockQueueService = module.get(QueueService);
+    mockQueueService = module.get(PostgresQueueService);
 
     // Setup default mocks
     mockAthenaStrategy.getEHRName.mockReturnValue('Athena');

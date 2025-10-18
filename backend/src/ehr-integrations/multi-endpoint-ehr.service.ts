@@ -337,4 +337,58 @@ export class MultiEndpointEhrService {
   async getQueueStatus(): Promise<any> {
     return this.queueService.getQueueStatus();
   }
+
+  /**
+   * Gets transaction logs with optional filtering.
+   */
+  async getTransactionLogs(ehrName?: string, status?: string): Promise<TransactionLog[]> {
+    const queryBuilder = this.transactionLogRepository.createQueryBuilder('transaction');
+    
+    if (ehrName) {
+      queryBuilder.andWhere('transaction.ehrName = :ehrName', { ehrName });
+    }
+    
+    if (status) {
+      queryBuilder.andWhere('transaction.status = :status', { status });
+    }
+    
+    queryBuilder.orderBy('transaction.createdAt', 'DESC');
+    
+    return queryBuilder.getMany();
+  }
+
+  /**
+   * Retries a failed transaction.
+   */
+  async retryTransaction(transactionId: number): Promise<{ message: string }> {
+    const transaction = await this.transactionLogRepository.findOne({
+      where: { id: transactionId }
+    });
+
+    if (!transaction) {
+      throw new NotFoundException(`Transaction with ID ${transactionId} not found`);
+    }
+
+    if (transaction.status === 'success') {
+      throw new BadRequestException('Cannot retry a successful transaction');
+    }
+
+    // Reset transaction status and increment retry count
+    transaction.status = 'pending';
+    transaction.retryCount += 1;
+    transaction.errorMessage = undefined;
+    transaction.updatedAt = new Date();
+
+    await this.transactionLogRepository.save(transaction);
+
+    // Add to queue for processing
+    await this.queueService.addEhrJob({
+      ehrName: transaction.ehrName,
+      patientData: transaction.patientData,
+      transactionId: transaction.id.toString(),
+      retryCount: transaction.retryCount
+    });
+
+    return { message: 'Transaction retry initiated successfully' };
+  }
 }
