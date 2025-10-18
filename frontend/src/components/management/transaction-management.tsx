@@ -28,8 +28,8 @@ export function TransactionManagement() {
     setLoading(true);
     try {
       const transactions = await apiClient.getTransactionLogs(
-        filterEhr || undefined,
-        filterStatus || undefined
+        filterEhr && filterEhr !== 'all' ? filterEhr : undefined,
+        filterStatus && filterStatus !== 'all' ? filterStatus : undefined
       );
       setTransactions(transactions);
     } catch (error) {
@@ -90,7 +90,7 @@ export function TransactionManagement() {
                   <SelectValue placeholder={t('transactionManagement.allEhrs')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">{t('transactionManagement.allEhrs')}</SelectItem>
+                  <SelectItem value="all">{t('transactionManagement.allEhrs')}</SelectItem>
                   {ehrSystems.map(ehr => (
                     <SelectItem key={ehr} value={ehr}>{ehr}</SelectItem>
                   ))}
@@ -105,7 +105,7 @@ export function TransactionManagement() {
                   <SelectValue placeholder={t('transactionManagement.allStatuses')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">{t('transactionManagement.allStatuses')}</SelectItem>
+                  <SelectItem value="all">{t('transactionManagement.allStatuses')}</SelectItem>
                   {statuses.map(status => (
                     <SelectItem key={status} value={status}>
                       {t(`transactionStatus.${status}`)}
