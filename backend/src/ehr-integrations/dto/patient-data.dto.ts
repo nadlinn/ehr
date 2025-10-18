@@ -58,7 +58,40 @@ export class PatientDataDto {
 
   @IsString()
   @IsOptional()
-  symptoms?: string;
+  socialHistory?: string;
+
+  @IsString()
+  @IsOptional()
+  familyHistory?: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  symptoms?: string[];
+
+  @IsString()
+  @IsOptional()
+  bloodType?: string;
+
+  @IsString()
+  @IsOptional()
+  maritalStatus?: string;
+
+  @IsString()
+  @IsOptional()
+  emergencyContact?: string;
+
+  @IsString()
+  @IsOptional()
+  insuranceProvider?: string;
+
+  @IsString()
+  @IsOptional()
+  insurancePolicyNumber?: string;
+
+  @IsString()
+  @IsOptional()
+  primaryCarePhysician?: string;
 }
 
 export class EhrMappingDto {
@@ -68,6 +101,39 @@ export class EhrMappingDto {
 
   @IsNotEmpty()
   mappingConfig: Record<string, string>;
+}
+
+export class EhrEndpointDto {
+  @IsString()
+  @IsNotEmpty()
+  endpointName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  endpointUrl: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsNotEmpty()
+  supportedFields: string[];
+
+  @IsString()
+  @IsOptional()
+  description?: string;
+}
+
+export class MultiEndpointEhrMappingDto {
+  @IsString()
+  @IsNotEmpty()
+  ehrName: string;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => EhrEndpointDto)
+  endpoints: EhrEndpointDto[];
+
+  @IsNotEmpty()
+  fieldMappings: Record<string, Record<string, string>>;
 }
 
 export class SendPatientDataDto {
@@ -82,4 +148,9 @@ export class SendPatientDataDto {
   @IsString()
   @IsOptional()
   language?: string = 'en';
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  targetEndpoints?: string[];
 }

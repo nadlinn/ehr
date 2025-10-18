@@ -13,14 +13,47 @@ export interface PatientData {
   };
   allergies?: string[];
   medications?: string[];
-  medicalHistory?: Record<string, any>;
+  medicalHistory?: string;
+  socialHistory?: string;
+  familyHistory?: string;
   symptoms?: string[];
+  bloodType?: string;
+  maritalStatus?: string;
+  emergencyContact?: string;
+  insuranceProvider?: string;
+  insurancePolicyNumber?: string;
+  primaryCarePhysician?: string;
 }
 
 export interface SendPatientDataRequest {
   ehrName: string;
   patientData: PatientData;
   language?: string;
+  targetEndpoints?: string[];
+}
+
+export interface EhrEndpoint {
+  endpointName: string;
+  endpointUrl: string;
+  supportedFields: string[];
+  description?: string;
+}
+
+export interface EndpointSubmissionResult {
+  endpointName: string;
+  success: boolean;
+  transactionId?: string;
+  error?: string;
+  data?: any;
+}
+
+export interface MultiEndpointSubmissionResult {
+  ehrName: string;
+  overallSuccess: boolean;
+  endpointResults: EndpointSubmissionResult[];
+  totalEndpoints: number;
+  successfulEndpoints: number;
+  failedEndpoints: number;
 }
 
 export interface SendPatientDataResponse {
@@ -206,6 +239,37 @@ class ApiClient {
   async clearAllCaches(): Promise<{ message: string }> {
     const response: AxiosResponse<{ message: string }> = await this.client.post(
       '/ehr/cache/clear'
+    );
+    return response.data;
+  }
+
+  // Multi-Endpoint EHR Integration
+  async sendPatientDataToMultipleEndpoints(request: SendPatientDataRequest & { targetEndpoints?: string[] }): Promise<MultiEndpointSubmissionResult> {
+    const response: AxiosResponse<MultiEndpointSubmissionResult> = await this.client.post(
+      '/ehr/multi-endpoint/send-patient-data',
+      request
+    );
+    return response.data;
+  }
+
+  async sendPatientDataToMultipleEndpointsAsync(request: SendPatientDataRequest & { targetEndpoints?: string[] }): Promise<SendPatientDataResponse> {
+    const response: AxiosResponse<SendPatientDataResponse> = await this.client.post(
+      '/ehr/multi-endpoint/send-patient-data-async',
+      request
+    );
+    return response.data;
+  }
+
+  async getEhrEndpoints(ehrName: string): Promise<EhrEndpoint[]> {
+    const response: AxiosResponse<EhrEndpoint[]> = await this.client.get(
+      `/ehr/multi-endpoint/endpoints/${ehrName}`
+    );
+    return response.data;
+  }
+
+  async getEndpointFieldMappings(ehrName: string, endpointName: string): Promise<Record<string, string>> {
+    const response: AxiosResponse<Record<string, string>> = await this.client.get(
+      `/ehr/multi-endpoint/endpoints/${ehrName}/${endpointName}/mappings`
     );
     return response.data;
   }

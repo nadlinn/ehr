@@ -27,8 +27,16 @@ const patientDataSchema = z.object({
   }),
   allergies: z.array(z.string()).optional(),
   medications: z.array(z.string()).optional(),
-  medicalHistory: z.record(z.any()).optional(),
+  medicalHistory: z.string().optional(),
+  socialHistory: z.string().optional(),
+  familyHistory: z.string().optional(),
   symptoms: z.array(z.string()).optional(),
+  bloodType: z.string().optional(),
+  maritalStatus: z.string().optional(),
+  emergencyContact: z.string().optional(),
+  insuranceProvider: z.string().optional(),
+  insurancePolicyNumber: z.string().optional(),
+  primaryCarePhysician: z.string().optional(),
 });
 
 type PatientDataFormData = z.infer<typeof patientDataSchema>;
@@ -355,6 +363,125 @@ export function PatientDataForm({ onSubmit, loading = false }: PatientDataFormPr
                     </button>
                   </span>
                 ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Medical History */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Medical History</h3>
+            <div className="space-y-2">
+              <Label htmlFor="medicalHistory">Previous medical conditions, surgeries, injuries</Label>
+              <Textarea
+                id="medicalHistory"
+                {...register('medicalHistory')}
+                placeholder="e.g., Previous abdominal surgery (2020), History of diabetes, Chest pain episodes"
+                rows={3}
+              />
+            </div>
+          </div>
+
+          {/* Social History */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Social History</h3>
+            <div className="space-y-2">
+              <Label htmlFor="socialHistory">Lifestyle factors, habits, occupation</Label>
+              <Textarea
+                id="socialHistory"
+                {...register('socialHistory')}
+                placeholder="e.g., Non-smoker, Occasional alcohol use, Office worker, Recent travel to Europe"
+                rows={3}
+              />
+            </div>
+          </div>
+
+          {/* Family History */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Family History</h3>
+            <div className="space-y-2">
+              <Label htmlFor="familyHistory">Family medical conditions</Label>
+              <Textarea
+                id="familyHistory"
+                {...register('familyHistory')}
+                placeholder="e.g., Mother: diabetes, Father: heart disease, Grandmother: breast cancer"
+                rows={3}
+              />
+            </div>
+          </div>
+
+          {/* Additional Information */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">Additional Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="bloodType">Blood Type</Label>
+                <Select {...register('bloodType')}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select blood type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="A+">A+</SelectItem>
+                    <SelectItem value="A-">A-</SelectItem>
+                    <SelectItem value="B+">B+</SelectItem>
+                    <SelectItem value="B-">B-</SelectItem>
+                    <SelectItem value="AB+">AB+</SelectItem>
+                    <SelectItem value="AB-">AB-</SelectItem>
+                    <SelectItem value="O+">O+</SelectItem>
+                    <SelectItem value="O-">O-</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="maritalStatus">Marital Status</Label>
+                <Select {...register('maritalStatus')}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select marital status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="single">Single</SelectItem>
+                    <SelectItem value="married">Married</SelectItem>
+                    <SelectItem value="divorced">Divorced</SelectItem>
+                    <SelectItem value="widowed">Widowed</SelectItem>
+                    <SelectItem value="separated">Separated</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="emergencyContact">Emergency Contact</Label>
+                <Input
+                  id="emergencyContact"
+                  {...register('emergencyContact')}
+                  placeholder="Name and phone number"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="primaryCarePhysician">Primary Care Physician</Label>
+                <Input
+                  id="primaryCarePhysician"
+                  {...register('primaryCarePhysician')}
+                  placeholder="Dr. Smith, Internal Medicine"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="insuranceProvider">Insurance Provider</Label>
+                <Input
+                  id="insuranceProvider"
+                  {...register('insuranceProvider')}
+                  placeholder="Blue Cross Blue Shield"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="insurancePolicyNumber">Insurance Policy Number</Label>
+                <Input
+                  id="insurancePolicyNumber"
+                  {...register('insurancePolicyNumber')}
+                  placeholder="Policy number"
+                />
               </div>
             </div>
           </div>
