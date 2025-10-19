@@ -52,7 +52,7 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    command: sh -c "npm run build && node dist/main"
+    command: npm run start:dev
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3001/"]
       interval: 30s
@@ -67,7 +67,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=https://ehr.lancema.cc:3001
+      - NEXT_PUBLIC_API_URL=https://api.lancema.cc
     volumes:
       - ./frontend:/app
       - /app/node_modules
