@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,6 +11,7 @@ import { EhrMappingManagement } from '@/components/management/ehr-mapping-manage
 import { TransactionManagement } from '@/components/management/transaction-management';
 import { MultiEndpointMonitoring } from '@/components/monitoring/multi-endpoint-monitoring';
 import { apiClient, SendPatientDataRequest, SendPatientDataResponse, MultiEndpointSubmissionResult } from '@/lib/api-client';
+import { FileText } from 'lucide-react';
 
 type TabType = 'multi-endpoint' | 'mappings' | 'transactions' | 'multi-monitoring';
 
@@ -69,6 +71,12 @@ export default function Home() {
             </div>
             
             <div className="flex items-center space-x-4">
+              <Link href="/documents">
+                <Button variant="outline" size="sm">
+                  <FileText className="h-4 w-4 mr-2" />
+                  Documents
+                </Button>
+              </Link>
               <Select value={language} onValueChange={handleLanguageChange}>
                 <SelectTrigger className="w-32">
                   <SelectValue />
@@ -221,6 +229,42 @@ export default function Home() {
                 <li>• Allscripts</li>
                 <li>• Epic (Coming Soon)</li>
                 <li>• Cerner (Coming Soon)</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Documentation</h3>
+              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                <li>
+                  <Link href="/documents" className="hover:text-blue-600 dark:hover:text-blue-400">
+                    📖 Complete Documentation
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/documents" className="hover:text-blue-600 dark:hover:text-blue-400">
+                    🔧 EHR Mapping Management
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/documents" className="hover:text-blue-600 dark:hover:text-blue-400">
+                    📋 Technical Specification
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/documents" className="hover:text-blue-600 dark:hover:text-blue-400">
+                    ❓ Frequently Asked Questions
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/documents" className="hover:text-blue-600 dark:hover:text-blue-400">
+                    🚀 Setup Guide
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/documents" className="hover:text-blue-600 dark:hover:text-blue-400">
+                    🗄️ ORM Implementation
+                  </Link>
+                </li>
               </ul>
             </div>
             
