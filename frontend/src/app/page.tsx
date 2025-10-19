@@ -204,8 +204,8 @@ export default function Home() {
                 <li>✓ Multi-Endpoint Smart Routing</li>
                 <li>✓ Multi-language Support (English/Spanish)</li>
                 <li>✓ PostgreSQL Queue System</li>
-                <li>✓ Redis Caching (10x faster retrieval)</li>
-                <li>✓ Asynchronous Processing (95% faster responses)</li>
+                <li>✓ Redis Caching</li>
+                <li>✓ Asynchronous Processing</li>
                 <li>✓ Bulk Patient Data Processing</li>
                 <li>✓ Real-time Queue Monitoring</li>
                 <li>✓ EHR Mapping Management</li>
@@ -224,15 +224,6 @@ export default function Home() {
               </ul>
             </div>
             
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Performance Metrics</h3>
-              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                <li>• 10x faster EHR mapping retrieval</li>
-                <li>• 95% faster API responses</li>
-                <li>• 10x higher patient processing throughput</li>
-                <li>• Enterprise-grade reliability</li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
