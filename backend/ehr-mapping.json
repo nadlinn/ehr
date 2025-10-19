@@ -1,0 +1,138 @@
+{
+  "Athena": {
+    "endpoints": [
+      {
+        "endpointName": "patient_demographics",
+        "endpointUrl": "https://api.athenahealth.com/v1/patients",
+        "supportedFields": ["firstName", "lastName", "gender", "age", "dob", "contact"],
+        "description": "Patient demographic information"
+      },
+      {
+        "endpointName": "medical_history",
+        "endpointUrl": "https://api.athenahealth.com/v1/patients/{patientId}/medical-history",
+        "supportedFields": ["medicalHistory", "allergies", "currentMedications", "symptoms"],
+        "description": "Medical history and current conditions"
+      },
+      {
+        "endpointName": "social_history",
+        "endpointUrl": "https://api.athenahealth.com/v1/patients/{patientId}/social-history",
+        "supportedFields": ["socialHistory", "bloodType", "maritalStatus"],
+        "description": "Social and lifestyle factors"
+      },
+      {
+        "endpointName": "family_history",
+        "endpointUrl": "https://api.athenahealth.com/v1/patients/{patientId}/family-history",
+        "supportedFields": ["familyHistory"],
+        "description": "Family medical history"
+      },
+      {
+        "endpointName": "insurance_info",
+        "endpointUrl": "https://api.athenahealth.com/v1/patients/{patientId}/insurance",
+        "supportedFields": ["insuranceProvider", "insurancePolicyNumber", "primaryCarePhysician", "emergencyContact"],
+        "description": "Insurance and emergency contact information"
+      }
+    ],
+    "fieldMappings": {
+      "patient_demographics": {
+        "firstName": "PATIENT_FIRST_NAME",
+        "lastName": "PATIENT_LAST_NAME",
+        "name": "PATIENT_IDENT_NAME",
+        "gender": "GENDER_OF_PATIENT",
+        "age": "AGE_PATIENT",
+        "dob": "DATE_OF_BIRTH_PATIENT",
+        "contact.email": "PATIENT_EMAIL_ID",
+        "contact.phone": "TELEPHONE_NUMBER_PATIENT",
+        "contact.address": "PATIENT_LOCATION_ADDRESS"
+      },
+      "medical_history": {
+        "medicalHistory": "HISTORY_MEDICAL_PATIENT",
+        "allergies": "ALLERGIES_PATIENT",
+        "currentMedications": "PATIENT_MEDICATIONS_CURRENT",
+        "symptoms": "CURRENT_SYMPTOMS_PATIENT"
+      },
+      "social_history": {
+        "socialHistory": "HISTORY_SOCIAL_PATIENT",
+        "bloodType": "BLOOD_TYPE_PATIENT",
+        "maritalStatus": "MARITAL_STATUS_PATIENT"
+      },
+      "family_history": {
+        "familyHistory": "HISTORY_FAMILY_PATIENT"
+      },
+      "insurance_info": {
+        "emergencyContact": "EMERGENCY_CONTACT_PATIENT",
+        "insuranceProvider": "INSURANCE_PROVIDER_PATIENT",
+        "insurancePolicyNumber": "POLICY_NUMBER_INSURANCE_PATIENT",
+        "primaryCarePhysician": "PRIMARY_CARE_DOCTOR_PATIENT"
+      }
+    }
+  },
+  "Allscripts": {
+    "endpoints": [
+      {
+        "endpointName": "patient_demographics",
+        "endpointUrl": "https://api.allscripts.com/v1/patients",
+        "supportedFields": ["firstName", "lastName", "gender", "age", "dob", "contact"],
+        "description": "Patient demographic information"
+      },
+      {
+        "endpointName": "medical_history",
+        "endpointUrl": "https://api.allscripts.com/v1/patients/{patientId}/medical-history",
+        "supportedFields": ["medicalHistory", "allergies", "currentMedications", "symptoms"],
+        "description": "Medical history and current conditions"
+      },
+      {
+        "endpointName": "social_history",
+        "endpointUrl": "https://api.allscripts.com/v1/patients/{patientId}/social-history",
+        "supportedFields": ["socialHistory", "bloodType", "maritalStatus"],
+        "description": "Social and lifestyle factors"
+      },
+      {
+        "endpointName": "family_history",
+        "endpointUrl": "https://api.allscripts.com/v1/patients/{patientId}/family-history",
+        "supportedFields": ["familyHistory"],
+        "description": "Family medical history"
+      },
+      {
+        "endpointName": "insurance_info",
+        "endpointUrl": "https://api.allscripts.com/v1/patients/{patientId}/insurance",
+        "supportedFields": ["insuranceProvider", "insurancePolicyNumber", "primaryCarePhysician", "emergencyContact"],
+        "description": "Insurance and emergency contact information"
+      }
+    ],
+    "fieldMappings": {
+      "patient_demographics": {
+        "firstName": "FIRST_NAME_PAT",
+        "lastName": "LAST_NAME_PAT",
+        "p_name": "NAME_OF_PAT",
+        "p_gender": "GENDER_PAT",
+        "p_age": "AGE_PAT",
+        "p_dob": "BIRTHDATE_OF_PAT",
+        "contact.email": "EMAIL_ID_PAT",
+        "contact.phone": "PHONE_NUMBER_PAT",
+        "contact.address": "ADDRESS_PAT"
+      },
+      "medical_history": {
+        "medicalHistory": "HISTORY_MEDICAL_PAT",
+        "allergies": "ALLERGIES_PAT",
+        "currentMedications": "CURRENT_MEDS_PAT",
+        "symptoms": "CURRENT_SYMPTOMS_PAT"
+      },
+      "social_history": {
+        "socialHistory": "SOCIAL_HISTORY_PAT",
+        "bloodType": "BLOOD_TYPE_PAT",
+        "maritalStatus": "MARITAL_STATUS_PAT"
+      },
+      "family_history": {
+        "familyHistory": "FAMILY_HISTORY_PAT"
+      },
+      "insurance_info": {
+        "emergencyContact": "EMERGENCY_CONTACT_PAT",
+        "insuranceProvider": "PROVIDER_INSURANCE_PAT",
+        "insurancePolicyNumber": "POLICY_NUM_INSURANCE_PAT",
+        "primaryCarePhysician": "PRIMARY_CARE_DOC_PAT"
+      }
+    }
+  }
+}
+    
+    

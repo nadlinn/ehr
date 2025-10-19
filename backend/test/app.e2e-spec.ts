@@ -41,51 +41,51 @@ describe('EHR Integration Platform (e2e)', () => {
         address: '123 Main St, City, State 12345'
       },
       allergies: ['Penicillin', 'Shellfish'],
-      medicalHistory: {
-        diabetes: 'Type 2',
-        hypertension: 'Controlled'
-      }
+      medicalHistory: 'Type 2 diabetes, controlled hypertension',
+      symptoms: ['headache', 'fatigue']
     };
 
-    it('/ehr/send-patient-data (POST) - should send patient data to Athena', async () => {
+    it('/ehr/multi-endpoint/send-patient-data (POST) - should send patient data to Athena', async () => {
       const response = await request(app.getHttpServer())
-        .post('/ehr/send-patient-data')
+        .post('/ehr/multi-endpoint/send-patient-data')
         .send({
           ehrName: 'Athena',
           patientData: validPatientData
         })
         .expect(200);
 
-      expect(response.body).toHaveProperty('success');
-      expect(response.body).toHaveProperty('transactionId');
+      expect(response.body).toHaveProperty('ehrName', 'Athena');
+      expect(response.body).toHaveProperty('overallSuccess', true);
+      expect(response.body).toHaveProperty('endpointResults');
     });
 
-    it('/ehr/send-patient-data (POST) - should send patient data to Allscripts', async () => {
+    it('/ehr/multi-endpoint/send-patient-data (POST) - should send patient data to Allscripts', async () => {
       const response = await request(app.getHttpServer())
-        .post('/ehr/send-patient-data')
+        .post('/ehr/multi-endpoint/send-patient-data')
         .send({
           ehrName: 'Allscripts',
           patientData: validPatientData
         })
         .expect(200);
 
-      expect(response.body).toHaveProperty('success');
-      expect(response.body).toHaveProperty('transactionId');
+      expect(response.body).toHaveProperty('ehrName', 'Allscripts');
+      expect(response.body).toHaveProperty('overallSuccess', true);
+      expect(response.body).toHaveProperty('endpointResults');
     });
 
-    it('/ehr/send-patient-data (POST) - should reject invalid EHR name', async () => {
+    it('/ehr/multi-endpoint/send-patient-data (POST) - should reject invalid EHR name', async () => {
       await request(app.getHttpServer())
-        .post('/ehr/send-patient-data')
+        .post('/ehr/multi-endpoint/send-patient-data')
         .send({
           ehrName: 'InvalidEHR',
           patientData: validPatientData
         })
-        .expect(500);
+        .expect(404);
     });
 
-    it('/ehr/send-patient-data (POST) - should reject invalid patient data', async () => {
+    it('/ehr/multi-endpoint/send-patient-data (POST) - should reject invalid patient data', async () => {
       await request(app.getHttpServer())
-        .post('/ehr/send-patient-data')
+        .post('/ehr/multi-endpoint/send-patient-data')
         .send({
           ehrName: 'Athena',
           patientData: {
@@ -96,43 +96,43 @@ describe('EHR Integration Platform (e2e)', () => {
         .expect(400);
     });
 
-    it('/ehr/mapping/Athena (GET) - should get Athena mapping configuration', async () => {
+    it('/ehr/multi-endpoint/endpoints/Athena (GET) - should get Athena endpoints', async () => {
       const response = await request(app.getHttpServer())
-        .get('/ehr/mapping/Athena')
+        .get('/ehr/multi-endpoint/endpoints/Athena')
         .expect(200);
 
-      expect(response.body).toHaveProperty('ehrName', 'Athena');
-      expect(response.body).toHaveProperty('mappingConfig');
+      expect(Array.isArray(response.body)).toBe(true);
+      expect(response.body.length).toBeGreaterThan(0);
     });
 
-    it('/ehr/mapping/Allscripts (GET) - should get Allscripts mapping configuration', async () => {
+    it('/ehr/multi-endpoint/endpoints/Allscripts (GET) - should get Allscripts endpoints', async () => {
       const response = await request(app.getHttpServer())
-        .get('/ehr/mapping/Allscripts')
+        .get('/ehr/multi-endpoint/endpoints/Allscripts')
         .expect(200);
 
-      expect(response.body).toHaveProperty('ehrName', 'Allscripts');
-      expect(response.body).toHaveProperty('mappingConfig');
+      expect(Array.isArray(response.body)).toBe(true);
+      expect(response.body.length).toBeGreaterThan(0);
     });
 
-    it('/ehr/transactions (GET) - should get transaction logs', async () => {
+    it('/ehr/multi-endpoint/transactions (GET) - should get transaction logs', async () => {
       const response = await request(app.getHttpServer())
-        .get('/ehr/transactions')
+        .get('/ehr/multi-endpoint/transactions')
         .expect(200);
 
       expect(Array.isArray(response.body)).toBe(true);
     });
 
-    it('/ehr/transactions (GET) - should filter by EHR name', async () => {
+    it('/ehr/multi-endpoint/transactions (GET) - should filter by EHR name', async () => {
       const response = await request(app.getHttpServer())
-        .get('/ehr/transactions?ehrName=Athena')
+        .get('/ehr/multi-endpoint/transactions?ehrName=Athena')
         .expect(200);
 
       expect(Array.isArray(response.body)).toBe(true);
     });
 
-    it('/ehr/transactions (GET) - should filter by status', async () => {
+    it('/ehr/multi-endpoint/transactions (GET) - should filter by status', async () => {
       const response = await request(app.getHttpServer())
-        .get('/ehr/transactions?status=pending')
+        .get('/ehr/multi-endpoint/transactions?status=success')
         .expect(200);
 
       expect(Array.isArray(response.body)).toBe(true);
